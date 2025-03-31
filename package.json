@@ -1,0 +1,22 @@
+{
+  "name": "@stanko/monorail",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "build-lib": "rm -rf ./dist/lib && tsc -p ./tsconfig-lib.json",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "canvas": "^3.1.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "bezier-easing": "^2.1.0"
+  }
+}
