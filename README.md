@@ -10,32 +10,6 @@ You probably need this about as much as [Springfield needed their Monorail](http
 
 If you find it useful for animation debugging or breaking down complex animations, please let me know. I would love to see it in action.
 
-## Quick start
-
-Install it:
-
-```sh
-npm install @stanko/monorail
-```
-
-Import the main class and needed CSS:
-
-```ts
-import { Monorail } from '@stanko/monorail';
-import '@stanko/monorail/dist/monorail.css';
-```
-
-Instantiate it and add to dom:
-
-```ts
-const element = document.querySelector('.my-element') as HTMLDivElement;
-let animation: CSSAnimation = element.getAnimations()[0] as CSSAnimation;
-
-const monorail = new Monorail(animation);
-
-document.body.appendChild(monorail.element);
-```
-
 ## What it does
 
 - Visualizes most single-value numerical CSS properties in the animation (1)
@@ -48,6 +22,32 @@ document.body.appendChild(monorail.element);
 - Responsive layout with light/dark mode and handpicked colors
 
 (1): It supports all numerical properties with a single value. This means `translate(10px, 10px)` won't be picked up, but both `translateX(10px)` and `translateY(10px)` will.
+
+## Quick start
+
+Install it:
+
+```sh
+npm install @stanko/monorail
+```
+
+Import the main class and needed CSS (Monorail is only available as an ESM module):
+
+```ts
+import { Monorail } from '@stanko/monorail';
+import '@stanko/monorail/dist/monorail.css';
+```
+
+Instantiate it and add to DOM:
+
+```ts
+const element = document.querySelector('.my-element') as HTMLDivElement;
+let animation: CSSAnimation = element.getAnimations()[0] as CSSAnimation;
+
+const monorail = new Monorail(animation);
+
+document.body.appendChild(monorail.element);
+```
 
 ## Why?
 
@@ -67,15 +67,15 @@ I needed a single graph for a blog post I was writing. Instead of drawing an SVG
   type Options = {
     height?: number; // Height of the SVG graph
     colors?: string[]; // Colors used for the graph lines and areas
-    playbackSpeed?: number; // Speed of the animation, when user clicks play
+    playbackSpeed?: number; // Speed of the animation when user clicks play
   };
   ```
 
-- `.element` - HTML element containing all of the Monorail's elements. You'll have to place it in the DOM yourself.
+- `.element` - HTML element containing all of Monorail's elements. You'll have to place it in the DOM yourself.
 - `.playbackSpeed` - set playback speed.
 - `.destroy()` - destroys the instance and removes event listeners.
 
-As this is a development/educational tool, I intentionally left all of the properties and methods to be public. Feel free to play with them, but be aware that changing them in runtime might break the interactivity.
+As this is a development/educational tool, I intentionally left all of the properties and methods to be public. Feel free to play with them, but be aware that changing them at runtime might break the interactivity.
 
 ## Limitations
 
