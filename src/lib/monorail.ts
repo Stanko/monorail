@@ -40,6 +40,7 @@ export type MinMax = { min: number; max: number };
 type Options = {
   height?: number;
   colors?: string[];
+  playbackSpeed?: number;
 };
 
 const getCurve = (
@@ -85,25 +86,31 @@ export class Monorail {
   totalHeight: number;
   scales: Record<string, number>;
   properties: Properties;
+  playbackSpeed: number;
+  isPlaying: boolean = false;
+  isDragging: boolean = false;
+  colors: string[];
+  colorIndex: number = 0;
+  // DOM
   svg: SVGElement = document.createElementNS(
     'http://www.w3.org/2000/svg',
     'svg'
   );
+  playPauseButton: HTMLButtonElement = document.createElement('button');
   tooltip: HTMLDivElement = document.createElement('div');
   element: HTMLDivElement = document.createElement('div');
   valuesDivs: Record<string, HTMLDivElement> = {};
-  colors: string[];
-
-  colorIndex: number = 0;
 
   constructor(animation: CSSAnimation, options: Options = {}) {
-    const { height = 30, colors = DEFAULT_COLORS } = options;
+    const { height = 30, colors = DEFAULT_COLORS, playbackSpeed = 1 } = options;
 
     this.colors = colors;
     this.height = height;
+    this.playbackSpeed = playbackSpeed;
 
     this.animation = animation;
-    this.animationData = parse(animation);
+    this.animation = this.animation;
+    this.animationData = parse(this.animation);
 
     const minMax = this.getMinMaxValues();
 
@@ -131,8 +138,14 @@ export class Monorail {
       ...this.prepareAnimation(this.animationData.colors),
     ];
 
+    this.playPauseButton.innerHTML = [
+      '<span class="monorail-play">⏵ Play</span>',
+      '<span class="monorail-pause">⏸ Pause</span>',
+    ].join('\n');
+    this.playPauseButton.classList.add('monorail-play-pause-button');
+
     this.buildTooltip();
-    this.draw();
+    this.renderGraph();
 
     const timeline = document.createElement('div');
     timeline.classList.add('monorail-timeline');
@@ -143,7 +156,12 @@ export class Monorail {
     ].join('\n');
 
     this.element.classList.add('monorail');
-    this.element.replaceChildren(this.svg, timeline, this.tooltip);
+    this.element.replaceChildren(
+      this.svg,
+      timeline,
+      this.playPauseButton,
+      this.tooltip
+    );
   }
 
   getMinMaxValues = () => {
@@ -243,7 +261,7 @@ export class Monorail {
     return `<path stroke="${color}" d="M ${x} ${y} h 0.01" vector-effect="non-scaling-stroke"/>`;
   };
 
-  draw = () => {
+  renderGraph = () => {
     const { svg, height: h, totalHeight: th, properties } = this;
 
     this.tooltip.classList.add('monorail-tooltip');
@@ -327,10 +345,18 @@ export class Monorail {
       ].join('\n');
     });
 
+    // Manually selected minimum width to fit the color name and value
+    // Value looks like this: rgb(255 255 255 / 0.99) [swatch]
     if (longestColorName > 0) {
-      this.tooltip.style.minWidth = `${longestColorName + 29}ch`;
+      this.tooltip.style.setProperty(
+        '--monorail-tooltip-min-width',
+        `${longestColorName + 29}ch`
+      );
     } else {
-      this.tooltip.style.minWidth = `${longestPropName + 12}ch`;
+      this.tooltip.style.setProperty(
+        '--monorail-tooltip-min-width',
+        `${longestColorName + 12}ch`
+      );
     }
 
     tooltip.innerHTML =
@@ -410,7 +436,7 @@ export class Monorail {
     );
   };
 
-  scroll = (axis: SVGGElement, offsetX: number) => {
+  update = (axis: SVGGElement, offsetX: number, moveAnimation = true) => {
     const { svg, animation } = this;
 
     if (offsetX < 0) {
@@ -419,8 +445,8 @@ export class Monorail {
       offsetX = svg.clientWidth;
     }
 
-    const ratio = offsetX / svg.clientWidth;
-    let xPercentage = (offsetX / svg.clientWidth) * 100;
+    const progress = offsetX / svg.clientWidth;
+    let xPercentage = progress * 100;
     // Round to 0.1
     xPercentage = Math.round(xPercentage / 0.1) * 0.1;
 
@@ -429,41 +455,87 @@ export class Monorail {
     const duration = (animation.effect as KeyframeEffect).getTiming()
       .duration as number;
 
-    animation.currentTime = duration * ratio;
-    animation.pause();
+    if (moveAnimation) {
+      animation.currentTime = duration * progress;
+      animation.pause();
+    }
 
     this.updateTooltip(offsetX, xPercentage);
   };
 
+  play = (axis: SVGGElement) => {
+    this.isPlaying = true;
+    this.element.classList.add('monorail-playing');
+
+    const { svg, animation, playbackSpeed } = this;
+    const duration = (animation.effect as KeyframeEffect).getTiming()
+      .duration as number;
+
+    let start = performance.now();
+
+    const update = () => {
+      const currentTime = performance.now();
+      const elapsed = (currentTime - start) * playbackSpeed;
+      const progress = elapsed / duration;
+
+      this.update(axis, progress * svg.clientWidth, true);
+
+      if (progress >= 1 || !this.isPlaying) {
+        this.pause();
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        update();
+      });
+    };
+
+    update();
+  };
+
+  pause = () => {
+    this.isPlaying = false;
+    this.animation.pause();
+    this.element.classList.remove('monorail-playing');
+  };
+
   addEvents = (axis: SVGGElement) => {
-    const { svg } = this;
+    const { svg, playPauseButton } = this;
 
-    // Mouse events
+    // Play pause
 
-    let isDragging = false;
-
-    svg.addEventListener('mousedown', (e) => {
-      const offsetX = e.offsetX;
-      this.scroll(axis, offsetX);
-      isDragging = true;
-    });
-
-    svg.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        const offsetX = e.offsetX;
-        this.scroll(axis, offsetX);
+    playPauseButton.addEventListener('click', () => {
+      if (this.isPlaying) {
+        this.pause();
+      } else {
+        this.play(axis);
       }
     });
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
+    // Mouse events
+
+    svg.addEventListener('mousedown', (e) => {
+      this.pause();
+      const offsetX = e.offsetX;
+      this.update(axis, offsetX);
+      this.isDragging = true;
     });
+
+    svg.addEventListener('mousemove', (e) => {
+      if (this.isDragging) {
+        const offsetX = e.offsetX;
+        this.update(axis, offsetX);
+      }
+    });
+
+    document.addEventListener('mouseup', this.handleMouseUp);
 
     // Touch events
 
     let touchStart: Vector;
 
     svg.addEventListener('touchstart', (e) => {
+      this.pause();
       touchStart = {
         x: e.touches[0].clientX,
         y: e.touches[0].clientY,
@@ -482,8 +554,26 @@ export class Monorail {
       if (deltaX > deltaY && deltaX > 5) {
         e.preventDefault();
         const offsetX = e.touches[0].clientX - svg.getBoundingClientRect().left;
-        this.scroll(axis, offsetX);
+        this.update(axis, offsetX);
       }
     });
+  };
+
+  handleMouseUp = () => {
+    this.isDragging = false;
+  };
+
+  destroy = () => {
+    // Destroying all references
+    // This will also clean up the event listeners
+    this.element.innerHTML = '';
+    this.element.remove();
+    this.svg = null as any;
+    this.playPauseButton = null as any;
+    this.tooltip = null as any;
+    this.element = null as any;
+    this.valuesDivs = {};
+
+    document.removeEventListener('mouseup', this.handleMouseUp);
   };
 }

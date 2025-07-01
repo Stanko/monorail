@@ -216,7 +216,9 @@ export const getCanvasContext2D = (): CanvasRenderingContext2D => {
   canvas.width = 1;
   canvas.height = 1;
 
-  return canvas.getContext('2d') as CanvasRenderingContext2D;
+  return canvas.getContext('2d', {
+    willReadFrequently: true,
+  }) as CanvasRenderingContext2D;
 };
 
 export const parseKeyframes = (input: ComputedKeyframe[]): KeyframesData => {

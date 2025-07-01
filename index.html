@@ -7,6 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monorail</title>
 
+  <meta content="https://muffinman.io/monorail/monorail-light.png" property="twitter:image">
+  <meta content="https://muffinman.io/monorail/monorail-light.png" property="og:image">
+
+  <meta name="description" content="Monorail turns any CSS keyframe animation into an interactive graph">
+
   <link rel="stylesheet" href="/src/demo.css">
   <link rel="stylesheet" href="/src/monorail.css">
 
@@ -15,9 +20,30 @@
 <body>
   <main>
     <div class="animation-wrapper">
-      <div class="animation">
+      <h1 class="animation">
         Monorail!
-      </div>
+      </h1>
+    </div>
+    <nav>
+      <a href="https://github.com/Stanko/monorail">GitHub</a>
+      <a href="https://www.npmjs.com/package/@stanko/monorail">npm</a>
+      <a href="https://muffinman.io/">My Blog</a>
+    </nav>
+    <p>
+      Monorail turns any CSS keyframe animation into an interactive graph.
+    </p>
+    <p>
+      Try playing with the example below. For details on how to use it, check the <a
+        href="https://github.com/Stanko/monorail">GitHub repo</a>.
+    </p>
+    <div class="monorail-wrapper">
+
+    </div>
+    <div class="playback-speed">
+      <label for="playback-speed-input">Playback speed:</label>
+      <input type="range" min="0.1" max="1" value="0.3" step="0.1" id="playback-speed-input"
+        class="playback-speed-input">
+      <span class="playback-speed-value"></span>
     </div>
   </main>
 

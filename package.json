@@ -1,20 +1,29 @@
 {
   "name": "@stanko/monorail",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "main": "dist/lib/monorail.js",
+  "module": "dist/lib/monorail.js",
+  "types": "dist/lib/monorail.d.ts",
   "scripts": {
     "start": "vite",
-    "build": "rm -rf ./docs && tsc && vite build",
+    "build": "rm -rf ./docs && tsc && vite build && cp ./src/monorail.css ./dist/monorail.css",
     "build-lib": "rm -rf ./dist/lib && tsc -p ./tsconfig-lib.json",
     "preview": "vite preview",
     "test": "vitest",
-    "postinstall": "cp ./pre-commit ./.git/hooks/pre-commit && chmod +x ./.git/hooks/pre-commit"
+    "prepare": "cp ./pre-commit ./.git/hooks/pre-commit && chmod +x ./.git/hooks/pre-commit"
   },
   "devDependencies": {
+    "canvas": "^3.1.2",
     "typescript": "~5.8.3",
     "vite": "^7.0.0",
-    "vitest": "^3.2.4",
-    "canvas": "^3.1.2"
+    "vitest": "^3.2.4"
+  },
+  "files": [
+    "./dist",
+    "./public"
+  ],
+  "dependencies": {
+    "@stanko/monorail": "^0.0.1"
   }
 }
