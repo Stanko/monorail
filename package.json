@@ -1,6 +1,6 @@
 {
   "name": "@stanko/monorail",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "main": "dist/lib/monorail.js",
   "module": "dist/lib/monorail.js",
@@ -22,8 +22,5 @@
   "files": [
     "./dist",
     "./public"
-  ],
-  "dependencies": {
-    "@stanko/monorail": "^0.0.1"
-  }
+  ]
 }
