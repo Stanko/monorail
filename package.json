@@ -5,17 +5,16 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "rm -rf ./docs && tsc && vite build",
     "build-lib": "rm -rf ./dist/lib && tsc -p ./tsconfig-lib.json",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "cp ./pre-commit ./.git/hooks/pre-commit && chmod +x ./.git/hooks/pre-commit"
   },
   "devDependencies": {
     "typescript": "~5.8.3",
     "vite": "^7.0.0",
-    "vitest": "^3.2.4"
-  },
-  "dependencies": {
+    "vitest": "^3.2.4",
     "canvas": "^3.1.2"
   }
 }
