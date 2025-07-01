@@ -4,7 +4,7 @@ Monorail turns any CSS keyframe animation into an interactive graph.
 
 [Demo](https://muffinman.io/monorail/)
 
-[![Monorail](./public/monorail-light.png)](https://muffinman.io/monorail/)
+[![Monorail](public/monorail-light.png)](https://muffinman.io/monorail/)
 
 You probably need this about as much as [Springfield needed their Monorail](https://en.wikipedia.org/wiki/Marge_vs._the_Monorail) - therefore the name. If you haven't seen that Simpsons episode, I wholeheartedly recommend it.
 
