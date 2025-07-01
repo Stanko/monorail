@@ -35,9 +35,11 @@ I needed a single graph for a blog post I was writing. Instead of drawing an SVG
 Here are some features that would be nice to have, though I'm not sure if I'll ever implement them:
 
 - Showing start and end values for each curve
+- Add support for more complicated properties (e.g. drop-shadow)
 - Option to render all properties stacked vertically
-- Support for mixins units by converting everything to `px`
+- Support for mixing units by converting everything to `px`
 - Ability to drag the nodes to update the actual animation
+- Make [a custom event](./src/lib/on-animation-time-update.ts) to track the current time in the animation and update the graph real-time
 
 ## Supported properties
 

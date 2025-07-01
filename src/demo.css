@@ -1,0 +1,38 @@
+:root {
+  --bg: #fdfaf9;
+  --fg: #191819;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191819;
+    --fg: #fdfaf9;
+  }
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 40px 20px;
+  color: var(--fg);
+  background-color: var(--bg);
+}
+
+@media (min-width: 600px) {
+  body {
+    padding: 60px 40px;
+  }
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+}

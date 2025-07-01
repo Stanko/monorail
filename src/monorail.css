@@ -1,46 +1,14 @@
-:root {
-  --bg: #fdfaf9;
-  --fg: #191819;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #191819;
-    --fg: #fdfaf9;
-  }
-}
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  padding: 40px 20px;
-  color: var(--fg);
-  background-color: var(--bg);
-}
-
-@media (min-width: 600px) {
-  body {
-    padding: 60px 40px;
-  }
-}
-
-main {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 .monorail {
   --monorail-point-size: 5px;
   --monorail-stroke-width: 1px;
   --monorail-fill-opacity: 0.1;
+
+  --monorail-fill-opacity: 0.1;
+  --monorail-font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro',
+    Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --monorail-font-size: 0.75rem;
+
+  /* Colors */
 
   --monorail-bg: #fdfaf9;
   --monorail-fg: #191819;
@@ -55,11 +23,6 @@ main {
   --monorail-current-time: #940757;
   --monorail-notches: #c1c1c9;
   --monorail-swatch-outline: rgb(0 0 0 / 0.1);
-
-  --monorail-fill-opacity: 0.1;
-  --monorail-font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro',
-    Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-  --monorail-font-size: 0.75rem;
 }
 
 /* Dark mode */
