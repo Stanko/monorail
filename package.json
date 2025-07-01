@@ -7,8 +7,8 @@
   "types": "dist/lib/monorail.d.ts",
   "scripts": {
     "start": "vite",
-    "build": "rm -rf ./docs && tsc && vite build && cp ./src/monorail.css ./dist/monorail.css",
-    "build-lib": "rm -rf ./dist/lib && tsc -p ./tsconfig-lib.json",
+    "build": "rm -rf ./docs && tsc && vite build && touch ./docs/.nojekyll",
+    "build-lib": "rm -rf ./dist/lib && tsc -p ./tsconfig-lib.json && cp ./src/monorail.css ./dist/monorail.css",
     "preview": "vite preview",
     "test": "vitest",
     "prepare": "cp ./pre-commit ./.git/hooks/pre-commit && chmod +x ./.git/hooks/pre-commit"
