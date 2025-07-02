@@ -22,5 +22,21 @@
   "files": [
     "./dist",
     "./public"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Stanko/monorail.git"
+  },
+  "keywords": [
+    "animation",
+    "svg",
+    "graph",
+    "interactive",
+    "keyframes"
+  ],
+  "author": "Stanko",
+  "bugs": {
+    "url": "https://github.com/Stanko/monorail/issues"
+  },
+  "homepage": "https://muffinman.io/monorail"
 }
