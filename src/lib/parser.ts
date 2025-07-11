@@ -363,7 +363,7 @@ export const parseKeyframes = (input: ComputedKeyframe[]): KeyframesData => {
 };
 
 export const parse = (animation: CSSAnimation): AnimationData => {
-  if (!(animation.effect instanceof KeyframeEffect)) {
+  if (!(animation?.effect instanceof KeyframeEffect)) {
     throw new Error('Only animations with KeyframeEffect are supported.');
   }
 

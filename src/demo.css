@@ -150,6 +150,11 @@ a:hover {
   margin-top: 2rem;
 }
 
+.monorail-wrapper:empty + .playback-speed {
+  /* Hide the speed slider until monorail loads */
+  display: none;
+}
+
 .playback-speed {
   margin-top: 1rem;
   font-family: var(--monorail-font-family);
@@ -163,6 +168,22 @@ a:hover {
 label {
   flex: 100%;
   font-weight: bold;
+}
+
+/* Fade in */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.monorail,
+.playback-speed {
+  animation: fade-in 500ms ease-out forwards;
 }
 
 /* Range input */
