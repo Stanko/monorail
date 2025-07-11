@@ -2,7 +2,7 @@ import { Monorail } from './lib/monorail';
 // import { Monorail } from '@stanko/monorail';
 // import '@stanko/monorail/dist/monorail.css';
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   const animationDiv = document.querySelector('.animation') as HTMLDivElement;
   let animation: CSSAnimation = animationDiv.getAnimations()[0] as CSSAnimation;
 
